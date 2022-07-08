@@ -1,15 +1,19 @@
 // API Key 
 
 let searchBtn = document.getElementById("search-button");
+let input = document.getElementById("city");
 let result = document.getElementById("result");
 let cityRef = document.getElementById("city");
 var today = new Date();
 var day = today.getDay();
-var daylist = ["Sunday", "Monday", "Tueday", "Wednesday", "Thursday", "Friday", "Saturday"]
+var dayList = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 var month = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"]
 var dateTime = date;
 var months = month[today.getMonth()]
 var date = (today.getDate()) + ' ' + months;
+let imageToDisplay1 = document.getElementById("imageToDisplay");
+var unsplash_key = config.unsplash_key;
+var key = config.key;
 
 
 let getWeather = () => {
@@ -21,7 +25,8 @@ let getWeather = () => {
     else {
         // let photo = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${cityValue}&fields=photo&key=${photokey}`;
         // let photo_ref = `https://maps.googleapis.com/maps/api/place/photo?&photoreference=PHOTO_REFERENCE&key=${photokey}`;
-        let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityValue}&appid=${key}&units=metric `;
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityValue}&appid=${key}&units=metric`;
+        let unsplash = `https://api.unsplash.com/search/photos/?query=${cityValue}&client_id=${unsplash_key}`
         //Resets the input field
         cityRef.value = "";
         fetch(url)
@@ -46,7 +51,7 @@ let getWeather = () => {
                 <h4 class="weather">${data.weather[0].main}</h4>
                 <h4 class="desc">${data.weather[0].description}</h4>
                 <img src="https://openweathermap.org/img/w/${data.weather[0].icon}.png">
-                <h1>${data.main.temp} &#176;</h1>
+                <h1 class="current-temp">${data.main.temp} &#176;</h1>
                 <div class="temp-container">
                     <div>
                         <h4 class="title">Min</h4>
@@ -63,13 +68,58 @@ let getWeather = () => {
                     <div id="current_date"></div>
                 </div>
                 `;
-                document.getElementById("current_date").innerHTML = daylist[day] + ',' + date;
+                document.getElementById("current_date").innerHTML = dayList[day] + ',' + date;
+                return fetch(unsplash)
+            })
+            .then ((response) => response.json())
+            .then (data => {
+                console.log(data)
+                    // adds the src in html img
+                    imageToDisplay1.src = data.results[0].urls.full;
+                    imageToDisplay1.style.width = "100%";
+                    imageToDisplay1.style.height = "100vh";
+
             })
             .catch(() => {
                 result.innerHTML =`<h3 class="blank-input">City Not Found</h3>`;
-            });
+            }
+        );
     }
 };
+
+
+
+// searchBtn.addEventListener('click', function(event){
+//     let backImage = getNewImage();
+//     imageToDisplay1.src = backImage;
+    
+// })
+
+// async function getNewImage() {
+//     let cityValue = cityRef.value;
+//     let unsplash = `https://api.unsplash.com/search/photos/?query=${cityValue}&client_id=${unsplash_key}`
+//     return fetch(unsplash)
+//         .then((response) => response.json())
+//         .then((data) => {
+//             console.log(data)
+//             console.log(data.results[0].color)
+//             console.log(data.results[0].height)
+//             console.log(data.results[0].urls.regular)
+//             // console.log(results[0].links.html)
+//             // console.log(data[0].width)
+//             // console.log(data[0].description)
+//             let allImages = data.results[0].urls.regular;
+//             return allImages;
+//         }
+//     )
+// }
+
+
+
+input.addEventListener('keydown', function(event){
+    if (event.key === 'Enter')
+    getWeather();
+})
 
 
 
