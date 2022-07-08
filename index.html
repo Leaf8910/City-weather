@@ -11,17 +11,25 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main">
-        <i class="fa-solid fa-location-dot"></i>
-        <div class="container">
-            <div class="search-container">
-                <input type="text" placeholder="Enter a city name" id="city" value="">
-                <button id="search-button">Search</button>
-            </div>    
-            <div id="result"></div>
+<img id="imageToDisplay" 
+    style="background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    "
+    src="" >
+        <div class="main">
+            <i class="fa-solid fa-location-dot"></i>
+            <div class="container">
+                <div class="search-container">
+                    <input type="text" placeholder="Enter a city name" id="city" value="">
+                    <button id="search-button">Search</button>
+                </div>    
+                <div id="result"></div>
+            </div>
         </div>
-    </div>
-    <script src="key.js"></script>
+    <script type='text/javascript' src="key.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

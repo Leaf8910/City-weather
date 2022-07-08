@@ -12,13 +12,13 @@
   --off-white: #e5e5e5;
   --blue-1: #62b8f5;
   --blue-2: #4475ef;
-  --purple-1: #42097a;
-  --purple-2: #af8fce;
+  --purple-1: #390072;
+  --purple-2: #e4d2f8;
 }
 
 body {
   height: 100vh;
-  background: linear-gradient(135deg, var(--purple-1), var(--purple-2));
+  background: linear-gradient(135deg, var(--purple-2), var(--purple-1));
 }
 
 .main {
@@ -29,18 +29,30 @@ body {
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
-  color: #7121c0;
+  color: var(--off-white);
+  background-image: initial;
+  /* box-shadow: rgb(0 0 0 / 68%) 1em 1em 1em 0px; */
+  /* padding: 2em; */
+  border-radius: 2em;
+  padding-top: 10px; 
+  background: rgba(0, 0, 0, 0.804);
+  
 }
 
 .container {
   width: 100%;
-  backdrop-filter: blur(50px);
-  background: rgba(233, 233, 233, 0.1);
-  border-radius: 3em;
+  /* backdrop-filter: blur(10px); */
+  /* background: rgba(233, 233, 233, 0.1); */
+  /* border-radius: 3em; */
 }
 
 input {
-  border-radius: 5px;
+  min-width: 15vw;
+  border: none;
+  border-radius: 2em;
+  font-size: calc(1vh + 1vw);
+  padding-inline: 1em;
+  outline: none;
 }
 
 .search-container {
@@ -51,13 +63,14 @@ input {
   padding-top: 10px;
 }
 
-.search-button {
+.search-container button {
   border-radius: 10px;
   cursor: pointer;
 }
 
+
 #result h2 {
-  color: white;
+  color: var(--off-white);
   text-transform: uppercase;
   letter-spacing: 0.18em;
   font-weight: 600;
@@ -94,6 +107,10 @@ input {
   color: var(--white);
 }
 
+.current-temp {
+    color: --off-white;
+}
+
 .country{
   display: flex;
   justify-content: center;
@@ -112,6 +129,7 @@ svg {
   justify-content: center;
   align-items: center;
   justify-items: center;
+  color: var(--off-white);
 }
 .temp-container div {
   padding: 0.3em 1em;
@@ -126,6 +144,8 @@ desc {
 
 }
 
+
+
 .blank-input {
   color: var(--off-white);
   font-weight: 500;
@@ -139,5 +159,17 @@ desc {
 .current_date {
   display: flex;
   justify-content: flex-end;
+}
+
+/* .image {
+    background-image: repeat;
+} */
+
+.imageToDisplay {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
 }
 
