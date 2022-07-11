@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Raleway:wght@200&family=Secular+One&display=swap');
 
 * {
   padding: 0;
@@ -6,6 +7,28 @@
   font-family: 'Playfair Display', serif;
   font-family: 'Raleway', sans-serif;
   font-family: 'Secular One', sans-serif; 
+}
+
+html {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+body{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Poppins', sans-serif;
+  background-size: cover;
+  background-repeat: no-repeat;
+  flex-direction: column;
+  background-color: rgb(173, 191, 200);
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 :root {
@@ -22,28 +45,43 @@ body {
 }
 
 .main {
-  font-size: 16px;
-  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* width: 90vw; */
   max-width: 35em;
+  min-width: 25vw;
+  min-height: auto;
+  border-radius: 3em;
   position: absolute;
+  font-size: 16px;
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
-  color: var(--off-white);
   background-image: initial;
-  /* box-shadow: rgb(0 0 0 / 68%) 1em 1em 1em 0px; */
-  /* padding: 2em; */
-  border-radius: 2em;
-  padding-top: 10px; 
+  border-radius: 3em;
+  padding: 2em;
   background: rgba(0, 0, 0, 0.804);
+  backdrop-filter: blur(10px);
+  color: rgb(232, 230, 227);
+  box-shadow: rgb(0 0 0 / 68%) 1em 1em 1em 0px;
   
 }
 
 .container {
   width: 100%;
-  /* backdrop-filter: blur(10px); */
-  /* background: rgba(233, 233, 233, 0.1); */
-  /* border-radius: 3em; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.city {
+  font-weight: bold;
+  font-size: 2em;
+  min-width: 100%;
+  font-family: 'Poppins', sans-serif;
+  padding-left: 20px;  
 }
 
 input {
@@ -61,12 +99,18 @@ input {
   grid-template-columns: 9fr 3fr;
   gap: 1.25em;
   padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 15px;
 }
 
 .search-container button {
-  border-radius: 10px;
+  border-radius: 30px;
   cursor: pointer;
+  padding: 5px;
 }
+
 
 
 #result h2 {
@@ -108,7 +152,11 @@ input {
 }
 
 .current-temp {
-    color: --off-white;
+  color: --off-white;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
 }
 
 .country{
@@ -126,11 +174,13 @@ svg {
 
 .temp-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   justify-items: center;
   color: var(--off-white);
 }
+
 .temp-container div {
   padding: 0.3em 1em;
 }
@@ -141,9 +191,7 @@ svg {
 desc {
   color: var(--off-white);
   text-transform: uppercase;
-
 }
-
 
 
 .blank-input {
@@ -159,17 +207,50 @@ desc {
 .current_date {
   display: flex;
   justify-content: flex-end;
+  align-self: flex-end;
 }
 
-/* .image {
-    background-image: repeat;
-} */
 
-.imageToDisplay {
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: 100% 100%;
+.weather-container {
+  /* display: flex;
+  flex-direction: row;
+  align-items: center; */
+  justify-content: center;
 }
 
+.dateTime {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.weather-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.weather-main, 
+.weather-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.temp-heading {
+  display: flex;
+}
+
+@media only screen and (max-width: 475px){
+  .city{
+      font-size: xx-large;
+  }
+  .current-temp{
+      font-size: xx-large;
+  }
+  #current_date{
+      font-size: 1em;
+  }
+}
