@@ -1,128 +1,145 @@
-// API Key 
-
 let searchBtn = document.getElementById("search-button");
-let input = document.getElementById("city");
+let input = document.querySelector("input");
 let result = document.getElementById("result");
-let cityRef = document.getElementById("city");
-var today = new Date();
-var day = today.getDay();
-var dayList = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-var month = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"]
-var dateTime = date;
-var months = month[today.getMonth()]
-var date = (today.getDate()) + ' ' + months;
-let imageToDisplay1 = document.getElementById("imageToDisplay");
 var unsplash_key = config.unsplash_key;
 var key = config.key;
+var openCage = config.openCage;
+let locationBtn = document.querySelector("#location");
+let cityEle = document.querySelector(".city");
+let geo = document.querySelector("#geo");
+let feelEle = document.querySelector(".feelTemp");
+let maxEle = document.querySelector(".maxTemp");
+let minEle = document.querySelector(".minTemp");
+let currentTemp = document.querySelector(".current-temp");
+let currentDate = document.getElementById("current_date");
+let weatherIcon = document.querySelector(".weather-icon");
+let weatherDesc = document.querySelector(".desc");
+let weatherMain = document.querySelector(".weather");
+let bodyImg = document.querySelector("body");
 
 
-let getWeather = () => {
-    let cityValue = cityRef.value;
-    //Checks if theres no input
-    if (cityValue.length == 0) {
-        result.innerHTML = `<h3 class="blank-input">Please enter a city name</h3>`
+resetDOM = () => {
+    weatherMain.innerHTML = "";
+    weatherDesc.innerHTML = "";
+    weatherIcon.src = "";
+    currentTemp.innerHTML = "";
+    minEle.innerHTML = "";
+    maxEle.innerHTML = "";
+    feelEle.innerHTML = "";
+    cityEle.innerHTML = "";
+    currentDate.innerHTML = "";
+    currentTemp.innerText = "";
+}
+
+//Get user location coordinates
+getCoords = () => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const lat = position.coords.latitude;
+            const long = position.coords.longitude;
+            getWeatherByCoord(lat, long);
+        }, () => {
+            resetDOM();
+            result.innerText = "Location access is turned off\nPlease reset the permission";
+        });
     }
     else {
-        // let photo = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${cityValue}&fields=photo&key=${photokey}`;
-        // let photo_ref = `https://maps.googleapis.com/maps/api/place/photo?&photoreference=PHOTO_REFERENCE&key=${photokey}`;
-        let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityValue}&appid=${key}&units=metric`;
-        let unsplash = `https://api.unsplash.com/search/photos/?query=${cityValue}&client_id=${unsplash_key}`
-        //Resets the input field
-        cityRef.value = "";
-        fetch(url)
-            .then((resp) => resp.json())
-            .then((data) => {
-                console.log(data);
-                console.log(data.weather[0].icon);//cloud icon
-                console.log(data.weather[0].main); //weather parameters
-                console.log(data.weather[0].description) //specific weather description
-                console.log(data.weather[0].name) //City name
-                console.log(data.weather[0].main.temp_min)
-                console.log(data.weather[0].main.temp_max)
-                console.log(data.main.feels_like)//human perception 
-                console.log(data.sys.country)
-                console.log(data.main.humidity)
-                console.log(data.weather[0].main.humidity)
-                result.innerHTML = `
-                <div class="country">
-                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>
-                    <h2>${data.name}</h2>
-                </div>
-                <h4 class="weather">${data.weather[0].main}</h4>
-                <h4 class="desc">${data.weather[0].description}</h4>
-                <img src="https://openweathermap.org/img/w/${data.weather[0].icon}.png">
-                <h1 class="current-temp">${data.main.temp} &#176;</h1>
-                <div class="temp-container">
-                    <div>
-                        <h4 class="title">Min</h4>
-                        <h4 class="temp">${data.main.temp_min}&#176;</h4>
-                    </div>
-                    <div>
-                        <h4 class="title">Max</h4>
-                        <h4 class="temp">${data.main.temp_max}&#176;</h4>
-                    </div>
-                    <div>
-                        <h4 class="title">Feels like</h4>
-                        <h4 class="temp">${data.main.feels_like}&#176;</h4>
-                    </div>
-                    <div id="current_date"></div>
-                </div>
-                `;
-                document.getElementById("current_date").innerHTML = dayList[day] + ',' + date;
-                return fetch(unsplash)
-            })
-            .then ((response) => response.json())
-            .then (data => {
-                console.log(data)
-                    // adds the src in html img
-                    imageToDisplay1.src = data.results[0].urls.full;
-                    imageToDisplay1.style.width = "100%";
-                    imageToDisplay1.style.height = "100vh";
-
-            })
-            .catch(() => {
-                result.innerHTML =`<h3 class="blank-input">City Not Found</h3>`;
-            }
-        );
+        document.querySelector('#result').innerText = "GeoLocation not available"
     }
+};
+getCoords();
+
+
+//Get the API by User's Location
+getWeatherByCoord = (lat, long) => {
+    resetDOM();
+    currentTemp.innerText = "Loading...";
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${key}`)
+        .then((res) => res.json())
+        .then((data) => showWeather(data))
+    }
+;
+
+//Get the API by City Name
+getWeatherByName = (cityName) => {
+    resetDOM();
+    currentTemp.innerText = "Loading";
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${key}`)
+        .then((res) => res.json())
+        .then((data) => showWeather(data))
+        .catch(() => {
+            resetDOM();
+            result.innerHTML =`<h3 class="blank-input">City Not Found</h3>`
+        }
+    )
 };
 
 
+showWeather = (data) => {
+    const cityName = data.name;
+    const temperature = Math.round(data.main.temp);
+    var today = new Date();
+    var day = today.getDay();
+    var dayList = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    var month = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"]
+    var dateTime = date;
+    var months = month[today.getMonth()]
+    var date = (today.getDate()) + ' ' + months;
+    console.log(data);
 
-// searchBtn.addEventListener('click', function(event){
-//     let backImage = getNewImage();
-//     imageToDisplay1.src = backImage;
     
-// })
-
-// async function getNewImage() {
-//     let cityValue = cityRef.value;
-//     let unsplash = `https://api.unsplash.com/search/photos/?query=${cityValue}&client_id=${unsplash_key}`
-//     return fetch(unsplash)
-//         .then((response) => response.json())
-//         .then((data) => {
-//             console.log(data)
-//             console.log(data.results[0].color)
-//             console.log(data.results[0].height)
-//             console.log(data.results[0].urls.regular)
-//             // console.log(results[0].links.html)
-//             // console.log(data[0].width)
-//             // console.log(data[0].description)
-//             let allImages = data.results[0].urls.regular;
-//             return allImages;
-//         }
-//     )
-// }
-
-
-
-input.addEventListener('keydown', function(event){
-    if (event.key === 'Enter')
-    getWeather();
-})
+    weatherMain.innerHTML = `${data.weather[0].main}`
+    weatherDesc.innerHTML = `${data.weather[0].description}`;
+    weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+    currentTemp.innerHTML = `${temperature}&#176C`;
+    minEle.innerHTML = `Min: ${data.main.temp_min}&#176;`
+    maxEle.innerHTML = `Max: ${data.main.temp_max}&#176;`
+    feelEle.innerHTML = `Feels Like: ${data.main.feels_like}&#176;`
+    cityEle.innerHTML = `${cityName}, ${data.sys.country}`
+    currentDate.innerHTML = dayList[day] + ',' + date;
+    bodyImg.style.backgroundImage = `url("https://source.unsplash.com/random/${window.innerWidth}x${window.innerHeight+200}/?${cityName}")`;
+}
 
 
 
 
-searchBtn.addEventListener("click", getWeather);
-window.addEventListener("load", getWeather);
+// Event Listener on Location Button
+locationBtn.addEventListener('click', () => {
+    if (navigator.geolocation) {
+        getCoords();
+    }
+});
+
+
+
+
+
+//Event Listener on Search Bar
+input.addEventListener("keyup", (e) => {
+    if (e.key == "Enter") {
+        if (input.value === "") {
+            //pass
+        }
+        else {
+            getWeatherByName(input.value);
+            input.value = "";
+        }
+
+    }
+});
+
+//Event Listener on Search Button
+searchBtn.addEventListener('click', () => {
+    if (input.value === "") {
+        //pass
+    }
+    else {
+        getWeatherByName(input.value);
+        input.value = "";
+    }
+});
+
+// Event Listener on Location Button
+// locationBtn.addEventListener('click', getCoords);
+searchBtn.addEventListener("click", getWeatherByName);
+window.addEventListener("load", getCoords);
