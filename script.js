@@ -16,6 +16,7 @@ let weatherIcon = document.querySelector(".weather-icon");
 let weatherDesc = document.querySelector(".desc");
 let weatherMain = document.querySelector(".weather");
 let bodyImg = document.querySelector("body");
+let wind = document.querySelector(".wind-speed");
 
 
 resetDOM = () => {
@@ -29,6 +30,7 @@ resetDOM = () => {
     cityEle.innerHTML = "";
     currentDate.innerHTML = "";
     currentTemp.innerText = "";
+    wind.innerHTML = "";
 }
 
 //Get user location coordinates
@@ -60,6 +62,10 @@ getWeatherByCoord = (lat, long) => {
     }
 ;
 
+
+
+
+
 //Get the API by City Name
 getWeatherByName = (cityName) => {
     resetDOM();
@@ -87,7 +93,8 @@ showWeather = (data) => {
     var date = (today.getDate()) + ' ' + months;
     console.log(data);
 
-    
+
+    wind.innerHTML = `Wind speed: ${data.wind.speed}m/s`    
     weatherMain.innerHTML = `${data.weather[0].main}`
     weatherDesc.innerHTML = `${data.weather[0].description}`;
     weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
