@@ -3,7 +3,6 @@
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
   font-family: 'Playfair Display', serif;
   font-family: 'Raleway', sans-serif;
   font-family: 'Secular One', sans-serif; 
@@ -54,17 +53,13 @@ body {
   min-height: auto;
   border-radius: 3em;
   position: absolute;
-  font-size: 16px;
-  transform: translate(-50%, -50%);
-  top: 50%;
-  left: 50%;
-  background-image: initial;
   border-radius: 3em;
   padding: 2em;
   background: rgba(0, 0, 0, 0.804);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
   color: rgb(232, 230, 227);
   box-shadow: rgb(0 0 0 / 68%) 1em 1em 1em 0px;
+  box-sizing: border-box;
   
 }
 
@@ -74,21 +69,25 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.8em;
 }
 
 .city {
   font-weight: bold;
-  font-size: 3.4em;
+  font-size: 3.5em;
   min-width: 100%;
   font-family: 'Poppins', sans-serif;  
+  align-items: flex-start;
+  align-self: flex-start;
+  overflow: hidden;
 }
 
 input {
-  min-width: 15vw;
+  min-width: 10vw;
   border: none;
   border-radius: 2em;
   font-size: calc(1vh + 1vw);
-  padding-inline: 1em;
+  padding-inline: 0.5em;
   outline: none;
   background-color: rgb(81, 87, 91);
   color: rgb(232, 230, 227);
@@ -143,6 +142,13 @@ input {
   line-height: 2em;
 }
 
+.clouds{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
 #result {
   justify-content: center;
   display: flex;
@@ -167,13 +173,6 @@ input {
   text-align: left;
 }
 
-.country{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  color: var(--off-white)
-}
 
 svg {
   width: 30px;
@@ -183,26 +182,17 @@ svg {
 .temp-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
+  align-self: flex-start;
   justify-items: center;
   color: var(--off-white);
   font-family: 'Poppins', sans-serif;
   letter-spacing: 0.1em;
-  font-size: 0.9em;
+  font-size: 1em;
   font-weight: 500;
   line-height: 2em;
-  text-align: left;
-  padding-left: 0;
-  /* margin-left: -270px; */
-  margin-left: -18em;
-}
-
-.temp-container div {
-  padding: 0.3em 1em;
-}
-.temp-container div:first-child {
-  border-right: 1px solid var(--transp-white-1);
+  
 }
 
 desc {
@@ -229,13 +219,11 @@ desc {
 
 
 .weather-container {
-  /* display: flex;
-  flex-direction: row;
-  align-items: center; */
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
-  gap: 7em;
+  align-content: space-between;
+  gap: 8vw;
   align-items: flex-start;
 }
 
@@ -261,8 +249,8 @@ desc {
 
 .temp-heading {
   display: flex;
-  align-items: flex-end;
-  align-self: flex-end;
+  align-items: flex-start;
+  align-self: flex-start;
 }
 
 h4 {
